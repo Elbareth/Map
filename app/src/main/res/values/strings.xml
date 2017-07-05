@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Mapa</string>
+    <string name="title_activity_maps">Map</string>
+    <string-array name="transport">
+        <item>Na rowerze</item>
+        <item>Pieszo</item>
+        <item>Samochodem</item>
+        <item>Pociągiem</item>
+        <item>Tramwajem</item>
+        <item>Autobusem</item>
+        <item>Na deskorocle</item>
+        <item>Na rolkach</item>
+    </string-array>
+</resources>
