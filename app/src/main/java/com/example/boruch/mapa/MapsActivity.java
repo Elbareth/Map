@@ -22,6 +22,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -55,9 +56,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     context.getApplicationContext();
                     Intent intent = new Intent(context,Zapisz.class); // Otwiera nam się wtedy klasa Zapisz
                     intent.putExtra("czas",textView.getText().toString()); // Przesyłamy do niej iformacje z licznika, pod słowem czas ukryty będzie stan
-                    if(distance!=0){
-                        intent.putExtra("dystans",distance); // Przesyłamy również informacje o obliczonym dystansie
-                    }
+                    intent.putExtra("dystans",String.valueOf(distance)); // Przesyłamy również informacje o obliczonym dystansie
                     startActivity(intent); // Po przesłaniu informacji zaczynamy nową aktywnść
                 }
                 if(position==1){  // Oworzy nam się baza danych
@@ -141,8 +140,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         l1.setLongitude(startlong);
         l2.setLongitude(longatut);
         l2.setLatitude(latitute);
-        double distance = l1.distanceTo(l2);
-        return distance / 1000 ; // Zwraca dystans w kilometrach
+        Toast.makeText(this, "Współrzędne początku "+ l1.getLatitude() + " "+ l1.getLongitude()+ " oraz współrzędne końca " + l2.getLatitude() + " "+ l2.getLongitude(), Toast.LENGTH_LONG);
+        distance = l1.distanceTo(l2);
+        Toast.makeText(this,"Twój dystans to " + distance, Toast.LENGTH_SHORT);
+        return distance / 1000; // Zwraca dystans w kilometrach
     }
 
     @Override
@@ -165,7 +166,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onResume(){
         super.onResume();
         if(startlong!=0&&startlat!=0){
-            distance = calculate(stoplat,stoplat,startlat,startlong); // wywołuję metodę calulate do obliczania dystansu
+            distance = calculate(stoplat,stoplong,startlat,startlong); // wywołuję metodę calulate do obliczania dystansu
         }
     }
 
@@ -187,7 +188,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Address adres = adresList.get(0); // Wyłuskujemy element pierwszy listy
                     LatLng lat = new LatLng(adres.getLatitude(), adres.getLongitude()); // Tworzę obiekt klasy z wyszukaną długością i szerokością geograficzną, klasa latlng służy do przechowywania długości i szerokości
                     //if (mMap!=null){
-                    mMap.addMarker(new MarkerOptions().position(lat).title("Nowe wyszukanie")); // Ustawiamy marker w wyszukane miejsce
+                    mMap.addMarker(new MarkerOptions().position(lat).title(loc).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))); // Ustawiamy marker w wyszukane miejsce
                     mMap.animateCamera(CameraUpdateFactory.newLatLng(lat)); // Przestawiamy kamere w wyszukane miejsce
                     //}
                 }
