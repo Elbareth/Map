@@ -20,8 +20,8 @@ public class Zapisz extends Activity  implements OnItemSelectedListener{
     TextView textView, textView2;
     EditText editText;
     Spinner spinner;
-    float h;
     String curr;
+    String cos2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +40,37 @@ public class Zapisz extends Activity  implements OnItemSelectedListener{
             textView.setText(cos); // ustawiam tym moje textView
         }
         textView2 = (TextView) findViewById(R.id.dystnas);
-        getIntent().getFloatExtra("dystans",h); // Z MapsActivity otrzymuje też wyliczony dystans
-        textView2.setText(String.valueOf(h)); // konwertuje float na String i wstawiam do textView
+        cos2 = getIntent().getStringExtra("dystans"); // Z MapsActivity otrzymuje też wyliczony dystans
+        Toast.makeText(this,"Mój distance to "+ cos2, Toast.LENGTH_SHORT);
+        textView2.setText(cos2 + " km"); // konwertuje float na String i wstawiam do textView
     }
     @Override
     public void onItemSelected(AdapterView<?> arg0,View view, int pos, long id){
         curr = spinner.getSelectedItem().toString(); // Wybrana opcja
     }
     @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Nic
+    }
+
+    public void zapisz2(View view) {
+        //String wyswietl = editText.getText().toString();
+        //Zapis do bazy danych
+        String all = editText.getText().toString()+"    "+curr+"    "+textView.getText().toString()+"   "+textView2.getText().toString(); // Tworzę napis
+        try{
+            OutputStreamWriter out =new OutputStreamWriter(openFileOutput("data.txt",MODE_APPEND)); // Otwieram plik do dopisywania
+            out.write(all);
+            out.write('\n');
+            out.close(); // Zamykam plik
+            Toast.makeText(this,"Zapisano dane do bazy",Toast.LENGTH_SHORT).show(); // Wyświetlam informacje
+        }
+        catch (IOException e){
+            Toast.makeText(this,"Niestety Twoich wyników nie udało się zapisać",Toast.LENGTH_SHORT).show(); // W przeciwnym razie ta informacje
+            e.printStackTrace();
+        }
+    }
+}
+
     public void onNothingSelected(AdapterView<?> parent) {
         // Nic
     }
