@@ -46,7 +46,7 @@ public class GPS extends Service implements LocationListener{
                 }
                 if(location==null){
                     if(networkEnabled){ // Mamy dostęp do sieci
-                            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,10000,10,this); // Sprawdza lokalizację za pomocą sieci co 10 sek
+                            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,1000,10,this); // Sprawdza lokalizację za pomocą sieci co 10 sek
                             if(locationManager!=null){
                                 location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                             }
